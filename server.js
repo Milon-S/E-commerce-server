@@ -29,8 +29,17 @@ connectDB();
 const app = express();
 
 // ─── Middleware ──────────────────────────────────────────────
-// CORS configuration
-app.use(cors());
+// CORS configuration (আপডেট করা হয়েছে)
+app.use(cors({
+  origin: [
+    'http://localhost:5173', // আপনার লোকালহোস্ট (Vite এর জন্য সাধারণ পোর্ট)
+    'https://e-commerce-client-one.vercel.app', // (🚨 এখানে আপনার আসল লাইভ ক্লায়েন্ট URL টি বসিয়ে দিন)
+    /\.vercel\.app$/ // এটি আপনার যেকোনো Vercel প্রিভিউ বা প্রোডাকশন ডোমেনকে অনুমতি দেবে
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // HTTP Request logging in dev environment
 if (process.env.NODE_ENV === 'development') {
@@ -51,10 +60,10 @@ app.get('/api/health', (req, res) => {
 });
 
 // ─── API Routes ──────────────────────────────────────────────
-app.use('/api/users',    userRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/orders',   orderRoutes);
-app.use('/api/promo',    promoRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/promo', promoRoutes);
 app.use('/api/payments', paymentRoutes);
 
 // ─── 404 handler for unmatched routes ───────────────────────
@@ -71,7 +80,7 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
   console.log(
-    `🚀 Server running in ${process.env.NODE_ENV} mode on http://localhost:${PORT}`
+    `🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
   );
 });
 
