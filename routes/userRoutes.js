@@ -13,6 +13,7 @@ import {
   registerUser,
   authUser,
   getProfile,
+  googleLogin,
 } from '../controllers/userController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -23,6 +24,9 @@ router.post('/', registerUser);
 
 // Login
 router.post('/login', authUser);
+
+// Google Login
+router.post('/google-login', googleLogin);
 
 // Get own profile (requires valid JWT)
 router.get('/profile', protect, getProfile);
